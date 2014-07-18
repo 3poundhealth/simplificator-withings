@@ -19,7 +19,7 @@ class Withings::MeasurementGroup
   BLOOD_PRESSURE_MONITOR_TYPES = [TYPE_DIASTOLIC_BLOOD_PRESSURE, TYPE_SYSTOLIC_BLOOD_PRESSURE, TYPE_HEART_PULSE]
   SCALE_TYPES = [TYPE_WEIGHT, TYPE_SIZE, TYPE_FAT_FREE_MASS_WEIGHT, TYPE_FAT_RATIO, TYPE_FAT_MASS_WEIGHT]
 
-  attr_reader :group_id, :attribution, :taken_at, :category
+  attr_reader :group_id, :attribution, :taken_at, :category, :measures
   attr_reader :weight, :size, :fat, :ratio, :fat_free, :diastolic_blood_pressure, :systolic_blood_pressure, :heart_pulse
   def initialize(params)
     params = params.stringify_keys
@@ -27,6 +27,7 @@ class Withings::MeasurementGroup
     @attribution = params['attrib']
     @taken_at = Time.at(params['date'])
     @category = params['category']
+    @measures = params['measures']
     params['measures'].each do |measure|
       value = (measure['value'] * 10 ** measure['unit']).to_f
       case measure['type']
